@@ -149,8 +149,14 @@
     let url = new URL(input);
 
     // Handle known redirect hosts and unwrap chains
-    const redirectHosts = ['l.facebook.com', 'lm.facebook.com', 'vm.tiktok.com', 't.co', 'out.reddit.com', 'www.linkedin.com', 'youtu.be'];
-    const redirectParams = ['u', 'url', 'redirect', 'dest', 'target'];
+    const redirectHosts = [
+  'l.facebook.com', 'lm.facebook.com', 'vm.tiktok.com', 't.co',
+  'out.reddit.com', 'www.linkedin.com', 'youtu.be',
+  'www.google.com', 'l.instagram.com', 'www.pinterest.com',
+  'www.snapchat.com', 'm.me', 'discord.com', 'bing.com',
+  'r.search.yahoo.com', 'us.lrd.yahoo.com', 'wa.me'
+];
+    const redirectParams = ['u', 'url', 'redirect', 'dest', 'target', 'q'];
 
     const maxRedirectDepth = 5;
     let depth = 0;
@@ -170,12 +176,14 @@
     }
 
     const paramsToRemove = [
-      'utm_source','utm_medium','utm_campaign','utm_term','utm_content',
-      'gclid','fbclid','dclid','msclkid','ttclid','li_fat_id','li_medium',
-      'mc_cid','mc_eid','trk_contact','trk_msg','trk_module',
-      'ref','ref_src','ref_url','referrer','aff_id','aff_sub','aff_source',
-      'aff_medium','clickid','feature','app','src_vid','spm','_hsenc','_hsmi','_ke','fbp'
-    ];
+  'utm_source','utm_medium','utm_campaign','utm_term','utm_content',
+  'gclid','fbclid','dclid','msclkid','ttclid','li_fat_id','li_medium',
+  'mc_cid','mc_eid','trk_contact','trk_msg','trk_module',
+  'ref','ref_src','ref_url','referrer','aff_id','aff_sub','aff_source',
+  'aff_medium','clickid','feature','app','src_vid','spm','_hsenc','_hsmi','_ke','fbp',
+  '_ga','_gl','scid','icid','igshid','hop','pid','aid','pub_id','sub_id',
+  'campaign_id','email','e','mid','uid','rid','tag','ascsubtag'
+];
 
     paramsToRemove.forEach(param => url.searchParams.delete(param));
     cleaned = url.origin + url.pathname + (url.search ? '?' + url.searchParams.toString() : '') + url.hash;
