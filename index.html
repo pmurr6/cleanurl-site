@@ -149,8 +149,8 @@
     let url = new URL(input);
 
     // Handle Facebook, TikTok, and other redirect wrappers
-    const redirectHosts = ['l.facebook.com', 'lm.facebook.com', 'vm.tiktok.com', 't.co'];
-    const redirectParams = ['u', 'url', 'redirect'];
+    const redirectHosts = ['l.facebook.com', 'lm.facebook.com', 'vm.tiktok.com', 't.co', 'out.reddit.com', 'www.linkedin.com', 'youtu.be'];
+    const redirectParams = ['u', 'url', 'redirect', 'dest', 'target'];
 
     if (redirectHosts.includes(url.hostname)) {
       for (const param of redirectParams) {
