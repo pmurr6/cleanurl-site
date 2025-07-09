@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <link rel="apple-touch-icon" sizes="180x180" href="favicon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="favicon.png">
-<link rel="icon" type="image/png" sizes="16x16" href="favicon.png">
-<link rel="shortcut icon" href="favicon.png">
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>CleanURL.org - Clean Tracking URLs</title>
-  <meta name="description" content="CleanURL.org helps you protect your privacy by instantly removing tracking parameters from links. No login required, 100% free, mobile friendly, and we don’t store your data." />
-  <meta name="keywords" content="Remove UTM from URL, Clean tracking links, Remove Google Analytics parameters from URL" />
+  <meta name="description" content="CleanURL.org helps you protect your privacy by instantly removing tracking parameters like UTM, fbclid, and gclid from links. No login required, 100% free, mobile friendly, and we don’t store your data." />
+  <meta name="keywords" content="Remove UTM from URL, Clean tracking links, How to strip fbclid from links, Remove Google Analytics parameters from URL" />
+  <link rel="apple-touch-icon" sizes="180x180" href="favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon.png">
+  <link rel="shortcut icon" href="favicon.png">
   <link rel="icon" href="favicon.png" type="image/png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -119,72 +119,80 @@
   </style>
 </head>
 <body>
-  <h1>🔗 CleanURL.org</h1>
-  <p>Clean messy links in one click — 100% free, no login, mobile-friendly, and we never store your data.</p>
-  <div class="seo-keywords">
-    Keywords: Remove UTM from URL, Clean tracking links, How to strip fbclid from links, Remove Google Analytics parameters from URL
-  </div>
   <div class="container">
+    <h1>CleanURL.org</h1>
+    <p>Instantly clean tracking parameters like utm_, fbclid, and gclid from any URL.<br>✔️ No login &nbsp; ✔️ 100% free &nbsp; ✔️ Mobile Friendly &nbsp; ✔️ We don't store your data</p>
     <input type="text" id="inputUrl" placeholder="Paste your URL here..." />
     <button onclick="cleanUrl()">Clean URL</button>
     <div class="output" id="output"></div>
-    <button id="copyBtn" class="copy-btn" style="display: none;" onclick="copyToClipboard()">Copy to Clipboard</button>
+    <button class="copy-btn" onclick="copyToClipboard()" style="display:none">Copy to Clipboard</button>
     <div class="ad-space">
-      <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6158321349601120" data-ad-slot="1111111111" data-ad-format="auto" data-full-width-responsive="true"></ins>
+      <ins class="adsbygoogle"
+        style="display:block"
+        data-ad-client="ca-pub-6158321349601120"
+        data-ad-slot="1234567890"
+        data-ad-format="auto"
+        data-full-width-responsive="true"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
     </div>
-    <div class="ad-space">
-      <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6158321349601120" data-ad-slot="2222222222" data-ad-format="auto" data-full-width-responsive="true"></ins>
-    </div>
-  </div>
-  <div class="ad-space">
-    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6158321349601120" data-ad-slot="3333333333" data-ad-format="auto" data-full-width-responsive="true"></ins>
-  </div>
-  <div class="ad-space">
-    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6158321349601120" data-ad-slot="4444444444" data-ad-format="auto" data-full-width-responsive="true"></ins>
   </div>
   <footer>
-    &copy; 2025 CleanURL.org | <a href="/">Home</a> | <a href="/privacy.html">Privacy Policy</a> | <a href="/terms.html">Terms of Service</a> | <a href="/faq.html">FAQ</a>
+    <a href="/privacy.html">Privacy Policy</a> |
+    <a href="/terms.html">Terms</a> |
+    <a href="/faq.html">FAQ</a>
   </footer>
   <script>
-    (adsbygoogle = window.adsbygoogle || []).push({});
-  </script>
-  <script>
     function cleanUrl() {
-      let input = document.getElementById("inputUrl").value.trim();
-      if (!/^https?:\/\//i.test(input)) {
-        input = "https://" + input;
-      }
-      try {
-        let url = new URL(input);
-        const params = url.searchParams;
-        const toRemove = [
-          'utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content',
-          'fbclid', 'gclid', 'msclkid', 'mc_cid', 'mc_eid', 'rcstdid', 'igshid', 'yclid',
-          'dclid', 'ga_campaign', 'ga_source', 'ga_medium',
-          '_hsenc', '_hsmi', 'trk', 'trkid', 'ref', 'sourceid', 'cid', 'tid',
-          'soc_src', 'soc_trk', 'WT.mc_id', 'WT.mc_ev', 'mkt_tok', 's_cid', 's_kwcid',
-          'fb_action_ids', 'fb_action_types', '__twitter_impression', 'vero_conv',
-          'vero_id', 'icid', 'referrerid'
-        ];
-        toRemove.forEach(param => params.delete(param));
-        const cleanedUrl = url.origin + url.pathname + (params.toString() ? '?' + params.toString() : '');
-        document.getElementById("output").innerHTML = `<strong>Clean URL:</strong><br><a href="${cleanedUrl}" target="_blank">${cleanedUrl}</a>`;
-        const copyBtn = document.getElementById("copyBtn");
-        copyBtn.setAttribute("data-url", cleanedUrl);
-        copyBtn.style.display = "inline-block";
-      } catch (err) {
-        document.getElementById("output").innerText = "Invalid URL. Please try again.";
-        document.getElementById("copyBtn").style.display = "none";
+  const input = document.getElementById('inputUrl').value.trim();
+  let cleaned = input;
+  try {
+    let url = new URL(input);
+
+    // Handle Facebook, TikTok, and other redirect wrappers
+    const redirectHosts = ['l.facebook.com', 'lm.facebook.com', 'vm.tiktok.com', 't.co'];
+    const redirectParams = ['u', 'url', 'redirect'];
+
+    if (redirectHosts.includes(url.hostname)) {
+      for (const param of redirectParams) {
+        const redirectTarget = url.searchParams.get(param);
+        if (redirectTarget) {
+          cleaned = decodeURIComponent(redirectTarget);
+          url = new URL(cleaned);
+          break;
+        }
       }
     }
+
+    const paramsToRemove = [
+      'utm_source','utm_medium','utm_campaign','utm_term','utm_content',
+      'gclid','fbclid','dclid','msclkid','ttclid','li_fat_id','li_medium',
+      'mc_cid','mc_eid','trk_contact','trk_msg','trk_module',
+      'ref','ref_src','ref_url','referrer','aff_id','aff_sub','aff_source',
+      'aff_medium','clickid','feature','app','src_vid','spm','_hsenc','_hsmi','_ke','fbp'
+    ];
+
+    paramsToRemove.forEach(param => url.searchParams.delete(param));
+    cleaned = url.origin + url.pathname + (url.search ? '?' + url.searchParams.toString() : '') + url.hash;
+
+    document.getElementById('output').innerText = cleaned;
+    const copyBtn = document.querySelector('.copy-btn');
+    copyBtn.style.display = 'inline-block';
+  } catch (e) {
+    document.getElementById('output').innerText = 'Invalid URL';
+    document.querySelector('.copy-btn').style.display = 'none';
+  }
+} catch (e) {
+        document.getElementById('output').innerText = 'Invalid URL';
+        document.querySelector('.copy-btn').style.display = 'none';
+      }
+    }
+
     function copyToClipboard() {
-      const btn = document.getElementById("copyBtn");
-      const url = btn.getAttribute("data-url");
-      navigator.clipboard.writeText(url).then(() => {
-        btn.innerText = "Copied!";
-        setTimeout(() => {
-          btn.innerText = "Copy to Clipboard";
-        }, 2000);
+      const outputText = document.getElementById('output').innerText;
+      navigator.clipboard.writeText(outputText).then(() => {
+        const btn = document.querySelector('.copy-btn');
+        btn.innerText = 'Copied!';
+        setTimeout(() => { btn.innerText = 'Copy to Clipboard'; }, 1500);
       });
     }
   </script>
