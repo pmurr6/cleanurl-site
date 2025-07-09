@@ -148,18 +148,46 @@
   try {
     let url = new URL(input);
 
-    // Handle Facebook, TikTok, and other redirect wrappers
+    // Handle known redirect hosts and unwrap chains
     const redirectHosts = ['l.facebook.com', 'lm.facebook.com', 'vm.tiktok.com', 't.co', 'out.reddit.com', 'www.linkedin.com', 'youtu.be'];
     const redirectParams = ['u', 'url', 'redirect', 'dest', 'target'];
 
-    if (redirectHosts.includes(url.hostname)) {
+    const maxRedirectDepth = 5;
+    let depth = 0;
+    while (redirectHosts.includes(url.hostname) && depth < maxRedirectDepth) {
+      let redirected = false;
       for (const param of redirectParams) {
         const redirectTarget = url.searchParams.get(param);
         if (redirectTarget) {
           cleaned = decodeURIComponent(redirectTarget);
           url = new URL(cleaned);
+          redirected = true;
           break;
         }
+      }
+      if (!redirected) break;
+      depth++;
+    }
+
+    const paramsToRemove = [
+      'utm_source','utm_medium','utm_campaign','utm_term','utm_content',
+      'gclid','fbclid','dclid','msclkid','ttclid','li_fat_id','li_medium',
+      'mc_cid','mc_eid','trk_contact','trk_msg','trk_module',
+      'ref','ref_src','ref_url','referrer','aff_id','aff_sub','aff_source',
+      'aff_medium','clickid','feature','app','src_vid','spm','_hsenc','_hsmi','_ke','fbp'
+    ];
+
+    paramsToRemove.forEach(param => url.searchParams.delete(param));
+    cleaned = url.origin + url.pathname + (url.search ? '?' + url.searchParams.toString() : '') + url.hash;
+
+    document.getElementById('output').innerText = cleaned;
+    const copyBtn = document.querySelector('.copy-btn');
+    copyBtn.style.display = 'inline-block';
+  } catch (e) {
+    document.getElementById('output').innerText = 'Invalid URL';
+    document.querySelector('.copy-btn').style.display = 'none';
+  }
+}
       }
     }
 
