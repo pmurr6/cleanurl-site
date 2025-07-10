@@ -149,44 +149,47 @@
     (adsbygoogle = window.adsbygoogle || []).push({});
   </script>
   <script>
-    function cleanUrl() {
-      let input = document.getElementById("inputUrl").value.trim();
-      if (!/^https?:\/\//i.test(input)) {
-        input = "https://" + input;
-      }
-      try {
-        let url = new URL(input);
-        const params = url.searchParams;
-        const toRemove = [
-          'utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content',
-          'fbclid', 'gclid', 'msclkid', 'mc_cid', 'mc_eid', 'rcstdid', 'igshid', 'yclid',
-          'dclid', 'ga_campaign', 'ga_source', 'ga_medium',
-          '_hsenc', '_hsmi', 'trk', 'trkid', 'ref', 'sourceid', 'cid', 'tid',
-          'soc_src', 'soc_trk', 'WT.mc_id', 'WT.mc_ev', 'mkt_tok', 's_cid', 's_kwcid',
-          'fb_action_ids', 'fb_action_types', '__twitter_impression', 'vero_conv',
-          'vero_id', 'icid', 'referrerid'
-        ];
-        toRemove.forEach(param => params.delete(param));
-        const cleanedUrl = url.origin + url.pathname + (params.toString() ? '?' + params.toString() : '');
-        document.getElementById("output").innerHTML = `<strong>Clean URL:</strong><br><a href="${cleanedUrl}" target="_blank">${cleanedUrl}</a>`;
-        const copyBtn = document.getElementById("copyBtn");
-        copyBtn.setAttribute("data-url", cleanedUrl);
-        copyBtn.style.display = "inline-block";
-      } catch (err) {
-        document.getElementById("output").innerText = "Invalid URL. Please try again.";
-        document.getElementById("copyBtn").style.display = "none";
-      }
+  function cleanUrl() {
+    let input = document.getElementById("inputUrl").value.trim();
+    if (!/^https?:\/\//i.test(input)) {
+      input = "https://" + input;
     }
-    function copyToClipboard() {
-      const btn = document.getElementById("copyBtn");
-      const url = btn.getAttribute("data-url");
-      navigator.clipboard.writeText(url).then(() => {
-        btn.innerText = "Copied!";
-        setTimeout(() => {
-          btn.innerText = "Copy to Clipboard";
-        }, 2000);
-      });
+    try {
+      let url = new URL(input);
+      const params = url.searchParams;
+      const toRemove = [
+        'utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content',
+        'fbclid', 'gclid', 'msclkid', 'mc_cid', 'mc_eid', 'rcstdid', 'igshid', 'yclid',
+        'dclid', 'ga_campaign', 'ga_source', 'ga_medium', '_hsenc', '_hsmi', 'trk',
+        'trkid', 'ref', 'sourceid', 'cid', 'tid', 'soc_src', 'soc_trk', 'WT.mc_id',
+        'WT.mc_ev', 'mkt_tok', 's_cid', 's_kwcid', 'fb_action_ids', 'fb_action_types',
+        '__twitter_impression', 'vero_conv', 'vero_id', 'icid', 'referrerid',
+        'hop', 'pid', 'aid', 'pub_id', 'sub_id', 'campaign_id', 'email', 'e',
+        'mid', 'uid', 'rid', 'tag', 'ascsubtag', '_ga', '_gl', 'li_fat_id',
+        'li_medium', 'clickid', 'app', 'feature', 'src_vid', 'spm', 'fbp'
+      ];
+      toRemove.forEach(param => params.delete(param));
+      const cleanedUrl = url.origin + url.pathname + (params.toString() ? '?' + params.toString() : '');
+      document.getElementById("output").innerHTML = `<strong>Clean URL:</strong><br><a href="${cleanedUrl}" target="_blank">${cleanedUrl}</a>`;
+      const copyBtn = document.getElementById("copyBtn");
+      copyBtn.setAttribute("data-url", cleanedUrl);
+      copyBtn.style.display = "inline-block";
+    } catch (err) {
+      document.getElementById("output").innerText = "Invalid URL. Please try again.";
+      document.getElementById("copyBtn").style.display = "none";
     }
-  </script>
+  }
+
+  function copyToClipboard() {
+    const btn = document.getElementById("copyBtn");
+    const url = btn.getAttribute("data-url");
+    navigator.clipboard.writeText(url).then(() => {
+      btn.innerText = "Copied!";
+      setTimeout(() => {
+        btn.innerText = "Copy to Clipboard";
+      }, 2000);
+    });
+  }
+</script>
 </body>
 </html>
