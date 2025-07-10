@@ -1,76 +1,72 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>FAQ - CleanURL.org</title>
-  <meta name="description" content="Frequently asked questions about CleanURL.org - how it works, what data we store, and how we protect your privacy." />
-  <link rel="icon" href="favicon.png" type="image/png" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CleanURL.org - FAQ</title>
+  <meta name="description" content="Frequently asked questions about CleanURL.org – how it works, what it removes, privacy info, and supported platforms.">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap">
   <style>
     body {
       font-family: 'Inter', sans-serif;
+      background: #f9f9f9;
       margin: 0;
       padding: 2rem;
-      background: #f9f9f9;
       color: #333;
-    }
-    h1 {
-      text-align: center;
-      color: #2c3e50;
-    }
-    .faq {
       max-width: 800px;
-      margin: 2rem auto;
-      background: #fff;
-      padding: 2rem;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      margin: auto;
     }
-    .question {
-      font-weight: 600;
-      margin-top: 1.5rem;
-    }
-    .answer {
-      margin-top: 0.5rem;
-    }
-    a {
-      color: #3498db;
-      text-decoration: none;
-    }
-    footer {
-      text-align: center;
-      margin-top: 3rem;
-      font-size: 0.9rem;
-      color: #888;
-    }
+    h1 { color: #2c3e50; }
+    h2 { color: #3498db; margin-top: 2rem; }
+    p { line-height: 1.6; }
+    ul { padding-left: 1.5rem; }
   </style>
 </head>
 <body>
-  <h1>Frequently Asked Questions</h1>
-  <div class="faq">
-    <div class="question">What does CleanURL.org do?</div>
-    <div class="answer">We remove tracking parameters like utm_source, fbclid, gclid, and others from URLs to protect your privacy and share clean links.</div>
+  <h1>FAQ - CleanURL.org</h1>
 
-    <div class="question">Is CleanURL.org free to use?</div>
-    <div class="answer">Yes! CleanURL.org is 100% free, with no login required.</div>
+  <h2>How does CleanURL.org work?</h2>
+  <p>CleanURL.org detects and removes common tracking parameters from URLs to protect your privacy and make links cleaner for sharing.</p>
 
-    <div class="question">Do you store any of my data?</div>
-    <div class="answer">No, we never store, log, or track any URLs you paste or clean. Your privacy is our top priority.</div>
+  <h2>Do I need to install or sign up?</h2>
+  <p>No login or installation required. It works instantly in your browser – 100% free.</p>
 
-    <div class="question">Can I use CleanURL.org on mobile?</div>
-    <div class="answer">Absolutely. The tool is fully responsive and works smoothly on all mobile devices.</div>
+  <h2>What tracking parameters are removed?</h2>
+  <p>We remove over 60 common tracking parameters used by marketing, analytics, social, affiliate, and CRM platforms. This includes:</p>
+  <ul>
+    <li><strong>Google Analytics:</strong> utm_source, utm_medium, utm_campaign, utm_term, utm_content, _ga, _gl</li>
+    <li><strong>Facebook & Instagram:</strong> fbclid, fbp, fb_action_ids, fb_action_types, igshid</li>
+    <li><strong>Microsoft Ads:</strong> msclkid</li>
+    <li><strong>LinkedIn:</strong> li_fat_id, li_medium</li>
+    <li><strong>Affiliate tracking:</strong> pid, aid, hop, pub_id, sub_id, ascsubtag, clickid, ref, referrerid</li>
+    <li><strong>Email/CRM:</strong> mc_cid, mc_eid, mkt_tok, e, email, mid, uid, rid, campaign_id</li>
+    <li><strong>HubSpot:</strong> _hsenc, _hsmi</li>
+    <li><strong>Twitter & TikTok:</strong> __twitter_impression, ttclid</li>
+    <li><strong>Video & social shares:</strong> src_vid, app, feature, spm, icid</li>
+    <li><strong>Other common params:</strong> yclid, trk, trkid, s_kwcid, s_cid, tid, cid, ga_campaign, ga_medium, ga_source, vero_id, vero_conv</li>
+  </ul>
 
-    <div class="question">What are tracking parameters?</div>
-    <div class="answer">Tracking parameters like utm_source or fbclid are added to URLs by marketers to track clicks. CleanURL.org removes these to give you a simpler, private link.</div>
+  <h2>What platforms do you support?</h2>
+  <p>CleanURL.org supports link cleaning and redirect unwrapping for URLs shared through:</p>
+  <ul>
+    <li>Facebook & Instagram (e.g. l.facebook.com)</li>
+    <li>TikTok short links (vm.tiktok.com)</li>
+    <li>Twitter/X (t.co)</li>
+    <li>Reddit (out.reddit.com)</li>
+    <li>LinkedIn (www.linkedin.com)</li>
+    <li>YouTube (youtu.be)</li>
+    <li>Google (google.com redirects)</li>
+    <li>Pinterest, Snapchat, Discord, Yahoo, Bing, WhatsApp, and more</li>
+  </ul>
 
-    <div class="question">Can I share this tool with others?</div>
-    <div class="answer">Yes! We’d love that. You can share the link to <a href="https://cleanurl.org">CleanURL.org</a> anywhere you'd like.</div>
-  </div>
+  <h2>Do you collect or log my data?</h2>
+  <p>No. We don’t store your URLs or track you in any way. CleanURL.org is privacy-first by design.</p>
 
-  <footer>
-    &copy; 2025 CleanURL.org | <a href="/">Home</a> | <a href="/privacy.html">Privacy Policy</a> | <a href="/terms.html">Terms of Service</a> | <a href="/faq.html">FAQ</a>
+  <h2>Can I suggest new platforms or tracking parameters?</h2>
+  <p>Yes! Please email us at <a href="mailto:support@cleanurl.org">support@cleanurl.org</a> with suggestions.</p>
+
+  <footer style="margin-top: 3rem; font-size: 0.85rem; color: #999;">
+    &copy; 2025 CleanURL.org | <a href="/">Home</a> | <a href="/privacy.html">Privacy Policy</a> | <a href="/terms.html">Terms of Service</a>
   </footer>
 </body>
 </html>
-
