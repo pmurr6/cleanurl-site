@@ -149,7 +149,7 @@
     (adsbygoogle = window.adsbygoogle || []).push({});
   </script>
   <script>
-(async function() {
+(function() {
     const paramsToRemove = [
         'utm_source','utm_medium','utm_campaign','utm_term','utm_content',
         'utm_knock', // newly added
@@ -178,20 +178,6 @@
         'mailchi.mp','mcsv.net'
     ];
 
-    async function resolveRedirect(url, depth = 0) {
-        if (depth > 5) return url;
-        try {
-            const res = await fetch(url, { method: 'HEAD', redirect: 'manual' });
-            if (res.status >= 300 && res.status < 400) {
-                const loc = res.headers.get('location');
-                if (loc) return resolveRedirect(new URL(loc, url).href, depth + 1);
-            }
-        } catch(e) {
-            console.warn("Redirect resolution error:", e);
-        }
-        return url;
-    }
-
     function cleanURL(url) {
         try {
             let u = new URL(url);
@@ -199,7 +185,7 @@
             for (let p of paramsToRemove) {
                 if (u.searchParams.has(p)) u.searchParams.delete(p);
             }
-            // Check redirect host patterns
+            // If redirect host, extract real URL
             if (redirectHosts.some(h => u.hostname.endsWith(h))) {
                 const qParams = ['u','url','target','q','redirect'];
                 for (let qp of qParams) {
@@ -214,18 +200,21 @@
         }
     }
 
-    // Listen for paste or input events
-    document.addEventListener('paste', async e => {
-        let pasteData = (e.clipboardData || window.clipboardData).getData('text');
-        if (pasteData) {
-            let resolved = await resolveRedirect(pasteData);
-            let cleaned = cleanURL(resolved);
-            console.log("Original:", pasteData);
-            console.log("Cleaned:", cleaned);
+    document.getElementById('cleanBtn').addEventListener('click', function() {
+        const input = document.getElementById('urlInput');
+        const output = document.getElementById('result');
+        const original = input.value.trim();
+        if (!original) {
+            output.textContent = 'Please enter a URL.';
+            return;
         }
+        const cleaned = cleanURL(original);
+        output.textContent = cleaned;
+        output.href = cleaned;
     });
 })();
 </script>
 </body>
 </html>
+
 
