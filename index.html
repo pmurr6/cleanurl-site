@@ -149,47 +149,83 @@
     (adsbygoogle = window.adsbygoogle || []).push({});
   </script>
   <script>
-  function cleanUrl() {
-    let input = document.getElementById("inputUrl").value.trim();
-    if (!/^https?:\/\//i.test(input)) {
-      input = "https://" + input;
-    }
-    try {
-      let url = new URL(input);
-      const params = url.searchParams;
-      const toRemove = [
-        'utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content',
-        'fbclid', 'gclid', 'msclkid', 'mc_cid', 'mc_eid', 'rcstdid', 'igshid', 'yclid',
-        'dclid', 'ga_campaign', 'ga_source', 'ga_medium', '_hsenc', '_hsmi', 'trk',
-        'trkid', 'ref', 'sourceid', 'cid', 'tid', 'soc_src', 'soc_trk', 'WT.mc_id',
-        'WT.mc_ev', 'mkt_tok', 's_cid', 's_kwcid', 'fb_action_ids', 'fb_action_types',
-        '__twitter_impression', 'vero_conv', 'vero_id', 'icid', 'referrerid',
-        'hop', 'pid', 'aid', 'pub_id', 'sub_id', 'campaign_id', 'email', 'e',
-        'mid', 'uid', 'rid', 'tag', 'ascsubtag', '_ga', '_gl', 'li_fat_id',
-        'li_medium', 'clickid', 'app', 'feature', 'src_vid', 'spm', 'fbp'
-      ];
-      toRemove.forEach(param => params.delete(param));
-      const cleanedUrl = url.origin + url.pathname + (params.toString() ? '?' + params.toString() : '');
-      document.getElementById("output").innerHTML = `<strong>Clean URL:</strong><br><a href="${cleanedUrl}" target="_blank">${cleanedUrl}</a>`;
-      const copyBtn = document.getElementById("copyBtn");
-      copyBtn.setAttribute("data-url", cleanedUrl);
-      copyBtn.style.display = "inline-block";
-    } catch (err) {
-      document.getElementById("output").innerText = "Invalid URL. Please try again.";
-      document.getElementById("copyBtn").style.display = "none";
-    }
-  }
+(async function() {
+    const paramsToRemove = [
+        'utm_source','utm_medium','utm_campaign','utm_term','utm_content',
+        'utm_knock', // newly added
+        'gclid','fbclid','dclid','msclkid','ttclid','li_fat_id','li_medium',
+        'mc_cid','mc_eid','trk_contact','trk_msg','trk_module',
+        'ref','ref_src','ref_url','referrer','aff_id','aff_sub','aff_source',
+        'aff_medium','clickid','feature','app','src_vid','spm','_hsenc','_hsmi','_ke','fbp',
+        'igshid','mibextid','__twitter_impression','_openstat','vero_conv','vero_id',
+        'oly_anon_id','oly_enc_id','yclid','_gl','campaignid','adgroupid','feeditemid',
+        'targetid','loc_physical_ms','loc_interest_ms','matchtype','network','device',
+        'devicemodel','creative','keyword','placement','adposition','s_kwcid','pcrid',
+        'pmtag','user_id','session_id','tracking_id','cx','ie','cof','siteurl','zanpid',
+        'cmpid','emcid','pk_campaign','pk_source','pk_medium','pk_keyword','pk_cid',
+        'pk_content','ga_source','ga_medium','ga_term','ga_content','ga_campaign',
+        'gclsrc','ga_id','ga_sid','ga_hid','ga_fc','ga_cid','ga_pubid'
+    ];
 
-  function copyToClipboard() {
-    const btn = document.getElementById("copyBtn");
-    const url = btn.getAttribute("data-url");
-    navigator.clipboard.writeText(url).then(() => {
-      btn.innerText = "Copied!";
-      setTimeout(() => {
-        btn.innerText = "Copy to Clipboard";
-      }, 2000);
+    const redirectHosts = [
+        'l.facebook.com','lm.facebook.com','m.facebook.com','facebook.com',
+        't.co','twitter.com','x.com',
+        'lnkd.in','linkedin.com',
+        'youtu.be','youtube.com','m.youtube.com',
+        'vm.tiktok.com','tiktok.com',
+        'bit.ly','goo.gl','tinyurl.com',
+        'out.reddit.com','reddit.com',
+        'mailchi.mp','mcsv.net'
+    ];
+
+    async function resolveRedirect(url, depth = 0) {
+        if (depth > 5) return url;
+        try {
+            const res = await fetch(url, { method: 'HEAD', redirect: 'manual' });
+            if (res.status >= 300 && res.status < 400) {
+                const loc = res.headers.get('location');
+                if (loc) return resolveRedirect(new URL(loc, url).href, depth + 1);
+            }
+        } catch(e) {
+            console.warn("Redirect resolution error:", e);
+        }
+        return url;
+    }
+
+    function cleanURL(url) {
+        try {
+            let u = new URL(url);
+            // Remove tracking params
+            for (let p of paramsToRemove) {
+                if (u.searchParams.has(p)) u.searchParams.delete(p);
+            }
+            // Check redirect host patterns
+            if (redirectHosts.some(h => u.hostname.endsWith(h))) {
+                const qParams = ['u','url','target','q','redirect'];
+                for (let qp of qParams) {
+                    if (u.searchParams.has(qp)) {
+                        return cleanURL(u.searchParams.get(qp));
+                    }
+                }
+            }
+            return u.toString();
+        } catch {
+            return url;
+        }
+    }
+
+    // Listen for paste or input events
+    document.addEventListener('paste', async e => {
+        let pasteData = (e.clipboardData || window.clipboardData).getData('text');
+        if (pasteData) {
+            let resolved = await resolveRedirect(pasteData);
+            let cleaned = cleanURL(resolved);
+            console.log("Original:", pasteData);
+            console.log("Cleaned:", cleaned);
+        }
     });
-  }
+})();
 </script>
 </body>
 </html>
+
