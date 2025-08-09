@@ -1,75 +1,87 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="canonical" href="https://cleanurl.org/faq.html" />
-  <title>CleanURL.org - FAQ</title>
-  <meta name="description" content="Frequently asked questions about CleanURL.org – how it works, what it removes, privacy info, and supported platforms.">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FAQ - CleanURL.org</title>
+  <meta name="description" content="Frequently asked questions about CleanURL.org. Learn how to remove tracking parameters, strip redirects, and clean messy URLs from platforms like Facebook, TikTok, YouTube, LinkedIn, Twitter/X, Reddit, Instagram, Pinterest, Snapchat, and more." />
+  <meta name="keywords" content="Remove UTM from URL, Clean tracking links, Strip fbclid, Remove gclid, Remove msclkid, Clean Google Analytics parameters, Remove TikTok redirects, Remove Facebook redirects, Remove YouTube tracking, Remove LinkedIn tracking, Remove Twitter tracking, Remove Reddit tracking" />
   <style>
     body {
-      font-family: 'Inter', sans-serif;
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      margin: 2rem;
       background: #f9f9f9;
-      margin: 0;
-      padding: 2rem;
       color: #333;
-      max-width: 800px;
-      margin: auto;
     }
-    h1 { color: #2c3e50; }
-    h2 { color: #3498db; margin-top: 2rem; }
-    p { line-height: 1.6; }
-    ul { padding-left: 1.5rem; }
-    .back-link {
-      display: block;
-      margin-top: 3rem;
-      font-size: 0.95rem;
+    h1 {
+      text-align: center;
+      color: #2c3e50;
+    }
+    h2 {
+      color: #3498db;
+      margin-top: 1.5rem;
+    }
+    a {
       color: #3498db;
       text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    footer {
+      margin-top: 3rem;
+      text-align: center;
     }
   </style>
 </head>
 <body>
   <h1>FAQ - CleanURL.org</h1>
 
-  <h2>How does CleanURL.org work?</h2>
-  <p>CleanURL.org detects and removes common tracking parameters from URLs to protect your privacy and make links cleaner for sharing.</p>
+  <h2>What is CleanURL.org?</h2>
+  <p>CleanURL.org is a free, privacy-focused tool that instantly removes tracking parameters from any URL. Our service works on links from popular platforms like Facebook, TikTok, LinkedIn, YouTube, Twitter/X, Reddit, Instagram, Pinterest, Snapchat, and many more. No login required, mobile-friendly, and we never store your data.</p>
 
-  <h2>Do I need to install or sign up?</h2>
-  <p>No login or installation required. It works instantly in your browser – 100% free.</p>
-
-  <h2>What tracking parameters are removed?</h2>
-  <p>We remove over 60 common tracking parameters used by marketing, analytics, social, affiliate, and CRM platforms. This includes:</p>
+  <h2>Which platforms do you support?</h2>
+  <p>We currently clean URLs and remove redirects from:</p>
   <ul>
-    <li><strong>Google Analytics:</strong> utm_source, utm_medium, utm_campaign, utm_term, utm_content, _ga, _gl</li>
-    <li><strong>Facebook & Instagram:</strong> fbclid, fbp, fb_action_ids, fb_action_types, igshid</li>
-    <li><strong>Microsoft Ads:</strong> msclkid</li>
-    <li><strong>LinkedIn:</strong> li_fat_id, li_medium</li>
-    <li><strong>Affiliate tracking:</strong> pid, aid, hop, pub_id, sub_id, ascsubtag, clickid, ref, referrerid</li>
-    <li><strong>Email/CRM:</strong> mc_cid, mc_eid, mkt_tok, e, email, mid, uid, rid, campaign_id</li>
+    <li>Facebook & Messenger (<code>l.facebook.com</code>, <code>lm.facebook.com</code>, <code>m.me</code>)</li>
+    <li>TikTok (<code>vm.tiktok.com</code>)</li>
+    <li>LinkedIn (<code>www.linkedin.com</code>)</li>
+    <li>YouTube & YouTube Short Links (<code>youtu.be</code>)</li>
+    <li>Twitter / X (<code>t.co</code>)</li>
+    <li>Reddit (<code>out.reddit.com</code>)</li>
+    <li>Instagram (<code>l.instagram.com</code>)</li>
+    <li>Pinterest (<code>www.pinterest.com</code>)</li>
+    <li>Snapchat (<code>www.snapchat.com</code>)</li>
+    <li>Google Search Redirects (<code>www.google.com</code>)</li>
+    <li>Yahoo & Bing Redirects</li>
+    <li>WhatsApp (<code>wa.me</code>)</li>
+    <li>Discord (<code>discord.com</code>)</li>
+  </ul>
+
+  <h2>Which tracking parameters do you remove?</h2>
+  <p>We strip dozens of common tracking parameters used for analytics, ads, and affiliate tracking, including:</p>
+  <ul>
+    <li><strong>UTM Parameters:</strong> utm_source, utm_medium, utm_campaign, utm_term, utm_content</li>
+    <li><strong>Ad Click IDs:</strong> gclid, fbclid, dclid, msclkid, ttclid, yclid</li>
+    <li><strong>Email Campaign IDs:</strong> mc_cid, mc_eid</li>
+    <li><strong>Affiliate IDs:</strong> aff_id, aff_sub, aff_source, clickid, pid, aid</li>
+    <li><strong>Social Tracking:</strong> li_fat_id, li_medium, igshid, fbp</li>
+    <li><strong>Other Tracking:</strong> rcstdid, ref, ref_src, ref_url, referrer, app, src_vid, spm, hop, pub_id, sub_id, campaign_id, email, e, mid, uid, rid, tag, ascsubtag</li>
     <li><strong>HubSpot:</strong> _hsenc, _hsmi</li>
-    <li><strong>Twitter & TikTok:</strong> __twitter_impression, ttclid</li>
-    <li><strong>Video & social shares:</strong> src_vid, app, feature, spm, icid</li>
-    <li><strong>Other common params:</strong> yclid, trk, trkid, s_kwcid, s_cid, tid, cid, ga_campaign, ga_medium, ga_source, vero_id, vero_conv</li>
+    <li><strong>Google Analytics:</strong> _ga, _gl</li>
+    <li><strong>Miscellaneous:</strong> scid, icid, _ke, vero_conv, vero_id</li>
   </ul>
+  <p>This ensures your links are clean, privacy-friendly, and free from unnecessary data collection.</p>
 
-  <h2>What platforms do you support?</h2>
-  <p>CleanURL.org supports link cleaning and redirect unwrapping for URLs shared through:</p>
-  <ul>
-    <li>Facebook & Instagram (e.g. l.facebook.com)</li>
-    <li>TikTok short links (vm.tiktok.com)</li>
-    <li>Twitter/X (t.co)</li>
-    <li>Reddit (out.reddit.com)</li>
-    <li>LinkedIn (www.linkedin.com)</li>
-    <li>YouTube (youtu.be)</li>
-    <li>Google (google.com redirects)</li>
-    <li>Pinterest, Snapchat, Discord, Yahoo, Bing, WhatsApp, and more</li>
-  </ul>
+  <h2>How does it work?</h2>
+  <p>When you paste a link into CleanURL.org, our tool scans for redirect patterns and known tracking parameters. If the link is a redirect (e.g., <code>l.facebook.com</code>), we unwrap it to the final destination. Then, we remove all matching tracking parameters before displaying the clean version.</p>
 
-  <h2>Do you collect or log my data?</h2>
-  <p>No. We don’t store your URLs or track you in any way. CleanURL.org is privacy-first by design.</p>
+  <h2>Is CleanURL.org free to use?</h2>
+  <p>Yes. CleanURL.org is 100% free, requires no login, and works instantly on both desktop and mobile. We do not log, track, or store your URLs.</p>
 
-  <a href="/" class="back-link">&larr; Back to Home</a>
+  <footer>
+    <a href="/">← Back to Home</a>
+  </footer>
 </body>
 </html>
