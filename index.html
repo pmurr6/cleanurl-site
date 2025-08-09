@@ -2,123 +2,160 @@
 <html lang="en">
 <head>
   <link rel="apple-touch-icon" sizes="180x180" href="favicon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="favicon.png">
-<link rel="icon" type="image/png" sizes="16x16" href="favicon.png">
-<link rel="shortcut icon" href="favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon.png">
+  <link rel="shortcut icon" href="favicon.png">
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>CleanURL.org - Clean Tracking URLs</title>
   <meta name="description" content="CleanURL.org helps you protect your privacy by instantly removing tracking parameters from links. No login required, 100% free, mobile friendly, and we don’t store your data." />
   <meta name="keywords" content="Remove UTM from URL, Clean tracking links, Remove Google Analytics parameters from URL" />
-  <link rel="icon" href="favicon.png" type="image/png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
-  
-<script>
-function cleanUrl() {
-  let input = document.getElementById("inputUrl").value.trim();
-  if (!input) {
-    document.getElementById("output").innerText = "Please enter a URL.";
-    document.getElementById("copyBtn").style.display = "none";
-    return;
-  }
-  if (!/^https?:\/\//i.test(input)) {
-    input = "https://" + input;
-  }
-  try {
-    let url = new URL(input);
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6158321349601120" crossorigin="anonymous"></script>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-P14M8S60YW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-P14M8S60YW');
+  </script>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f0f4f8;
+      margin: 0;
+      padding: 2rem 1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+    h1 { font-size: 2.5rem; margin-bottom: 0.5rem; color: #2c3e50; }
+    p {
+      max-width: 600px;
+      color: #555;
+      margin-bottom: 0.5rem;
+    }
+    .container {
+      background: #ffffff;
+      padding: 2rem;
+      margin-top: 2rem;
+      border-radius: 16px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+      width: 100%;
+      max-width: 700px;
+    }
+    input[type='text'] {
+      width: 100%;
+      padding: 1rem;
+      margin: 1rem 0;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+    button {
+      padding: 0.8rem 2rem;
+      font-size: 1rem;
+      background: #3498db;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    button:hover { background: #2980b9; }
+    .output {
+      margin-top: 1.5rem;
+      color: #2d3436;
+      word-break: break-word;
+    }
+    .copy-btn {
+      margin-top: 1rem;
+      padding: 0.5rem 1.2rem;
+      font-size: 0.9rem;
+      background: #2ecc71;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .copy-btn:hover { background: #27ae60; }
+    footer {
+      margin-top: 2rem;
+      font-size: 0.85rem;
+      color: #888;
+    }
+    footer a {
+      color: #888;
+      text-decoration: none;
+      margin: 0 0.5rem;
+    }
+    .ad-space { margin: 2rem 0; }
+    .seo-keywords { display: none; }
+  </style>
+</head>
+<body>
+  <h1>🔗 CleanURL.org</h1>
+  <p>Clean messy links in one click — 100% free, no login, mobile-friendly, and we never store your data.</p>
+  <div class="container">
+    <input type="text" id="inputUrl" placeholder="Paste your URL here..." />
+    <button onclick="cleanUrl()">Clean URL</button>
+    <div class="output" id="output"></div>
+    <button id="copyBtn" class="copy-btn" style="display:none;" onclick="copyToClipboard()">Copy to Clipboard</button>
+    <div class="ad-space">
+      <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6158321349601120" data-ad-slot="1111111111" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    </div>
+  </div>
+  <footer>
+    &copy; 2025 CleanURL.org | <a href="/">Home</a> | <a href="/privacy.html">Privacy Policy</a> | <a href="/terms.html">Terms of Service</a> | <a href="/faq.html">FAQ</a>
+  </footer>
 
-    // Redirect hosts to unwrap
-    const redirectHosts = [
-      'l.facebook.com','lm.facebook.com','m.facebook.com','facebook.com',
-      't.co','twitter.com','x.com',
-      'lnkd.in','linkedin.com',
-      'youtu.be','youtube.com','m.youtube.com',
-      'vm.tiktok.com','tiktok.com',
-      'bit.ly','goo.gl','tinyurl.com',
-      'out.reddit.com','reddit.com',
-      'mailchi.mp','mcsv.net',
-      'www.google.com','l.instagram.com','www.pinterest.com',
-      'www.snapchat.com','m.me','discord.com','bing.com',
-      'r.search.yahoo.com','us.lrd.yahoo.com','wa.me'
-    ];
-
-    const redirectParams = ['u','url','redirect','dest','target','q'];
-    const maxDepth = 5;
-    let depth = 0;
-    while (redirectHosts.some(h => url.hostname.toLowerCase().endsWith(h)) && depth < maxDepth) {
-      let found = false;
-      for (const rp of redirectParams) {
-        const rt = url.searchParams.get(rp);
-        if (rt) {
-          let decoded = rt;
-          try { decoded = decodeURIComponent(rt); } catch (e) {}
-          // Ensure it has protocol
-          if (!/^https?:\/\//i.test(decoded)) {
-            decoded = decoded.replace(/^\/+/, '');
-            decoded = 'https://' + decoded;
-          }
-          try {
-            url = new URL(decoded);
-            found = true;
-            break;
-          } catch (e) {
-            // if constructing URL fails, stop unwrapping
-            found = false;
-          }
-        }
+  <script>
+    function cleanUrl() {
+      let input = document.getElementById("inputUrl").value.trim();
+      if (!/^https?:\/\//i.test(input)) {
+        input = "https://" + input;
       }
-      if (!found) break;
-      depth++;
+      try {
+        let url = new URL(input);
+        const params = url.searchParams;
+        const toRemove = [
+          'utm_source','utm_medium','utm_campaign','utm_term','utm_content','utm_knock',
+          'gclid','fbclid','dclid','msclkid','ttclid','li_fat_id','li_medium',
+          'mc_cid','mc_eid','trk_contact','trk_msg','trk_module',
+          'ref','ref_src','ref_url','referrer','aff_id','aff_sub','aff_source',
+          'aff_medium','clickid','feature','app','src_vid','spm','_hsenc','_hsmi','_ke','fbp',
+          '_ga','_gl','scid','icid','igshid','hop','pid','aid','pub_id','sub_id',
+          'campaign_id','email','e','mid','uid','rid','tag','ascsubtag',
+          'ga_campaign','ga_source','ga_medium','yclid','rcstdid','vero_conv','vero_id',
+          'mkt_tok','s_cid','s_kwcid','fb_action_ids','fb_action_types','__twitter_impression'
+        ];
+        toRemove.forEach(param => params.delete(param));
+        const cleanedUrl = url.origin + url.pathname + (params.toString() ? '?' + params.toString() : '') + url.hash;
+        document.getElementById("output").innerHTML = `<strong>Clean URL:</strong><br><a href="${cleanedUrl}" target="_blank">${cleanedUrl}</a>`;
+        const copyBtn = document.getElementById("copyBtn");
+        copyBtn.setAttribute("data-url", cleanedUrl);
+        copyBtn.style.display = "inline-block";
+      } catch (err) {
+        document.getElementById("output").innerText = "Invalid URL. Please try again.";
+        document.getElementById("copyBtn").style.display = "none";
+      }
     }
 
-    // Parameters to remove (lowercase)
-    const toRemove = [
-      'gclid','fbclid','dclid','msclkid','ttclid','li_fat_id','li_medium',
-      'mc_cid','mc_eid','trk_contact','trk_msg','trk_module',
-      'ref','ref_src','ref_url','referrer','aff_id','aff_sub','aff_source',
-      'aff_medium','clickid','feature','app','src_vid','spm','_hsenc','_hsmi',
-      '_ke','fbp','_ga','_gl','scid','icid','igshid','hop','pid','aid','pub_id',
-      'sub_id','campaign_id','email','e','mid','uid','rid','tag','ascsubtag',
-      'rcstdid','yclid','ga_campaign','ga_source','ga_medium','trk','trkid',
-      'sourceid','cid','tid','soc_src','soc_trk','wt.mc_id','wt.mc_ev','mkt_tok',
-      's_cid','s_kwcid','fb_action_ids','fb_action_types','__twitter_impression',
-      'vero_conv','vero_id','referrerid','utm_source','utm_medium','utm_campaign',
-      'utm_term','utm_content','utm_knock'
-    ];
-
-    // Remove wildcard utm_ and listed params (case-insensitive)
-    for (const key of Array.from(url.searchParams.keys())) {
-      const kLower = key.toLowerCase();
-      if (kLower.startsWith('utm_') || toRemove.includes(kLower)) {
-        url.searchParams.delete(key);
-      }
+    function copyToClipboard() {
+      const btn = document.getElementById("copyBtn");
+      const url = btn.getAttribute("data-url");
+      navigator.clipboard.writeText(url).then(() => {
+        btn.innerText = "Copied!";
+        setTimeout(() => {
+          btn.innerText = "Copy to Clipboard";
+        }, 2000);
+      });
     }
-
-    const cleaned = url.origin + url.pathname + (url.searchParams.toString() ? '?' + url.searchParams.toString() : '') + url.hash;
-    document.getElementById("output").innerHTML = `<strong>Clean URL:</strong><br><a href="${cleaned}" target="_blank" rel="noopener noreferrer">${cleaned}</a>`;
-    const copyBtn = document.getElementById("copyBtn");
-    copyBtn.setAttribute("data-url", cleaned);
-    copyBtn.style.display = "inline-block";
-  } catch (err) {
-    document.getElementById("output").innerText = "Invalid URL. Please try again.";
-    document.getElementById("copyBtn").style.display = "none";
-  }
-}
-
-function copyToClipboard() {
-  const btn = document.getElementById("copyBtn");
-  const url = btn.getAttribute("data-url") || '';
-  if (!url) return;
-  navigator.clipboard.writeText(url).then(() => {
-    btn.innerText = "Copied!";
-    setTimeout(() => {
-      btn.innerText = "Copy to Clipboard";
-    }, 2000);
-  }).catch(() => {});
-}
-</script>
-
+  </script>
 </body>
 </html>
