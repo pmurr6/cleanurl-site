@@ -14,46 +14,67 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6158321349601120" crossorigin="anonymous"></script>
-  <!-- Google tag (gtag.js) --> 
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-P14M8S60YW"></script>
   
 <script>
 function cleanUrl() {
   let input = document.getElementById("inputUrl").value.trim();
+  if (!input) {
+    document.getElementById("output").innerText = "Please enter a URL.";
+    document.getElementById("copyBtn").style.display = "none";
+    return;
+  }
   if (!/^https?:\/\//i.test(input)) {
     input = "https://" + input;
   }
   try {
     let url = new URL(input);
 
-    // Known redirect hosts to unwrap
+    // Redirect hosts to unwrap
     const redirectHosts = [
-      'l.facebook.com', 'lm.facebook.com', 'vm.tiktok.com', 't.co',
-      'out.reddit.com', 'www.linkedin.com', 'youtu.be', 'www.google.com',
-      'l.instagram.com', 'www.pinterest.com', 'www.snapchat.com', 'm.me',
-      'discord.com', 'bing.com', 'r.search.yahoo.com', 'us.lrd.yahoo.com', 'wa.me'
+      'l.facebook.com','lm.facebook.com','m.facebook.com','facebook.com',
+      't.co','twitter.com','x.com',
+      'lnkd.in','linkedin.com',
+      'youtu.be','youtube.com','m.youtube.com',
+      'vm.tiktok.com','tiktok.com',
+      'bit.ly','goo.gl','tinyurl.com',
+      'out.reddit.com','reddit.com',
+      'mailchi.mp','mcsv.net',
+      'www.google.com','l.instagram.com','www.pinterest.com',
+      'www.snapchat.com','m.me','discord.com','bing.com',
+      'r.search.yahoo.com','us.lrd.yahoo.com','wa.me'
     ];
-    const redirectParams = ['u', 'url', 'redirect', 'dest', 'target', 'q'];
-    const maxRedirectDepth = 5;
+
+    const redirectParams = ['u','url','redirect','dest','target','q'];
+    const maxDepth = 5;
     let depth = 0;
-    while (redirectHosts.includes(url.hostname) && depth < maxRedirectDepth) {
-      let redirected = false;
-      for (const param of redirectParams) {
-        const redirectTarget = url.searchParams.get(param);
-        if (redirectTarget) {
-          url = new URL(decodeURIComponent(redirectTarget));
-          redirected = true;
-          break;
+    while (redirectHosts.some(h => url.hostname.toLowerCase().endsWith(h)) && depth < maxDepth) {
+      let found = false;
+      for (const rp of redirectParams) {
+        const rt = url.searchParams.get(rp);
+        if (rt) {
+          let decoded = rt;
+          try { decoded = decodeURIComponent(rt); } catch (e) {}
+          // Ensure it has protocol
+          if (!/^https?:\/\//i.test(decoded)) {
+            decoded = decoded.replace(/^\/+/, '');
+            decoded = 'https://' + decoded;
+          }
+          try {
+            url = new URL(decoded);
+            found = true;
+            break;
+          } catch (e) {
+            // if constructing URL fails, stop unwrapping
+            found = false;
+          }
         }
       }
-      if (!redirected) break;
+      if (!found) break;
       depth++;
     }
 
-    // Expanded tracking parameters to remove
+    // Parameters to remove (lowercase)
     const toRemove = [
-      'utm_source','utm_medium','utm_campaign','utm_term','utm_content','utm_knock',
       'gclid','fbclid','dclid','msclkid','ttclid','li_fat_id','li_medium',
       'mc_cid','mc_eid','trk_contact','trk_msg','trk_module',
       'ref','ref_src','ref_url','referrer','aff_id','aff_sub','aff_source',
@@ -61,16 +82,24 @@ function cleanUrl() {
       '_ke','fbp','_ga','_gl','scid','icid','igshid','hop','pid','aid','pub_id',
       'sub_id','campaign_id','email','e','mid','uid','rid','tag','ascsubtag',
       'rcstdid','yclid','ga_campaign','ga_source','ga_medium','trk','trkid',
-      'sourceid','cid','tid','soc_src','soc_trk','WT.mc_id','WT.mc_ev','mkt_tok',
+      'sourceid','cid','tid','soc_src','soc_trk','wt.mc_id','wt.mc_ev','mkt_tok',
       's_cid','s_kwcid','fb_action_ids','fb_action_types','__twitter_impression',
-      'vero_conv','vero_id','referrerid'
+      'vero_conv','vero_id','referrerid','utm_source','utm_medium','utm_campaign',
+      'utm_term','utm_content','utm_knock'
     ];
-    toRemove.forEach(param => url.searchParams.delete(param));
 
-    const cleanedUrl = url.origin + url.pathname + (url.searchParams.toString() ? '?' + url.searchParams.toString() : '') + url.hash;
-    document.getElementById("output").innerHTML = `<strong>Clean URL:</strong><br><a href="${cleanedUrl}" target="_blank">${cleanedUrl}</a>`;
+    // Remove wildcard utm_ and listed params (case-insensitive)
+    for (const key of Array.from(url.searchParams.keys())) {
+      const kLower = key.toLowerCase();
+      if (kLower.startsWith('utm_') || toRemove.includes(kLower)) {
+        url.searchParams.delete(key);
+      }
+    }
+
+    const cleaned = url.origin + url.pathname + (url.searchParams.toString() ? '?' + url.searchParams.toString() : '') + url.hash;
+    document.getElementById("output").innerHTML = `<strong>Clean URL:</strong><br><a href="${cleaned}" target="_blank" rel="noopener noreferrer">${cleaned}</a>`;
     const copyBtn = document.getElementById("copyBtn");
-    copyBtn.setAttribute("data-url", cleanedUrl);
+    copyBtn.setAttribute("data-url", cleaned);
     copyBtn.style.display = "inline-block";
   } catch (err) {
     document.getElementById("output").innerText = "Invalid URL. Please try again.";
@@ -80,13 +109,14 @@ function cleanUrl() {
 
 function copyToClipboard() {
   const btn = document.getElementById("copyBtn");
-  const url = btn.getAttribute("data-url");
+  const url = btn.getAttribute("data-url") || '';
+  if (!url) return;
   navigator.clipboard.writeText(url).then(() => {
     btn.innerText = "Copied!";
     setTimeout(() => {
       btn.innerText = "Copy to Clipboard";
     }, 2000);
-  });
+  }).catch(() => {});
 }
 </script>
 
